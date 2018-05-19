@@ -55,19 +55,19 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
   createCollection:
     handler: rekognition/createCollection.handler
-  indexPhoto:
-    handler: rekognition/indexPhoto.handler
+  signUp:
+    handler: rekognition/signUp.handler
     events:
       - http:
-          path: indexPhoto
+          path: signUp
+          method: post
+  signIn:
+    handler: rekognition/signIn.handler
+    events:
+      - http:
+          path: signIn
           method: post
 
 #    The following are a few example events you can configure
@@ -122,6 +122,7 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: user-images-bucket-jnj
+    StaticContentBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: static-content-jnj
