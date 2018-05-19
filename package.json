@@ -1,0 +1,15 @@
+{
+  "name": "Hackathon",
+  "version": "1.0.0",
+  "description": "User Sign In/Up, Personalization",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.243.1"
+  }
+}
