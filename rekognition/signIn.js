@@ -1,7 +1,8 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-var rekognition = new AWS.Rekognition();
+const rekognition = new AWS.Rekognition();
+const detectFace = require('./detectFace.js');
 
 module.exports.handler = (event, context, callback) => {
 
@@ -25,10 +26,6 @@ module.exports.handler = (event, context, callback) => {
     CollectionId: 'userPhotos',
     Image: {
       Bytes: buf
-      /*S3Object: {
-        Bucket: 'user-images-bucket-jnj',
-        Name: body.userName
-      }*/
     },
     FaceMatchThreshold: 80.0,
     MaxFaces: 1
@@ -38,19 +35,10 @@ module.exports.handler = (event, context, callback) => {
       console.log(err, err.stack); // an error occurred
       callback(new Error('Error during photo searching ', err));
     } else {
-      console.log(data);           // successful response
-      const response = {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin' : '*', // Required for CORS support to work
-          'Access-Control-Allow-Credentials' : true // Required for cookies, authorization headers with HTTPS
-        },
-        body: JSON.stringify({
-          message: 'Detection information',
-          detectionData: data
-        }),
-      };
-      callback(null, response);
+      console.log('Search Face Data', data);           // successful response
+      //data.FaceMatches[0].ExternalImageId
+      console.log('found external face: ' + JSON.stringify(data.FaceMatches[0]));
+      detectFace(data.FaceMatches[0].Face.ExternalImageId, buf, callback);
     }
   });
 
