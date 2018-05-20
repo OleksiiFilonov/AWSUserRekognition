@@ -50,7 +50,9 @@ module.exports.handler = (event, context, callback) => {
     } else {
       // successful response
       //console.log('found external face: ' + JSON.stringify(data.FaceMatches[0]));
-      detectFace(data.FaceMatches[0].Face, buf, callback);
+      console.log(JSON.stringify(data));
+      const face = (data.FaceMatches[0] != null)? data.FaceMatches[0].Face: null;
+      detectFace(face, buf, callback);
     }
   });
 

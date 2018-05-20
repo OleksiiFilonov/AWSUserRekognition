@@ -16,6 +16,16 @@ module.exports = function (detectedFace, imageBuffer, callback) {
       callback(new Error('Error during face analysis ', err));
     } else {
       // successful response
+      let body = {
+        message: 'Face Analysis/Detection information',
+        confidence: 0,
+        faceInfo: data
+      }
+      if (detectedFace != null) {
+        body.detectedFace = detectedFace.ExternalImageId;
+        body.confidence = detectedFace.Confidence;
+      }
+
       const response = {
         statusCode: 200,
         headers: {
@@ -23,12 +33,7 @@ module.exports = function (detectedFace, imageBuffer, callback) {
           'Access-Control-Allow-Credentials' : true, // Required for cookies, authorization headers with HTTPS
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          message: 'Face Analysis/Detection information',
-          externalImage: detectedFace.ExternalImageId,
-          confidence: detectedFace.Confidence,
-          faceInfo: data
-        }),
+        body: JSON.stringify(body),
       };
       callback(null, response);
     }

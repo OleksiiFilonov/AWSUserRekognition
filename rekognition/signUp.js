@@ -49,9 +49,7 @@ module.exports.handler = (event, context, callback) => {
         Name: body.userName
       }*/
     },
-    DetectionAttributes: [
-      "DEFAULT" , "ALL",
-    ],
+    DetectionAttributes: ["ALL"],
     ExternalImageId: body.userName
   };
   rekognition.indexFaces(rekognitionParams, function(err, data) {

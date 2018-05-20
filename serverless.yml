@@ -57,6 +57,8 @@ provider:
 functions:
   createCollection:
     handler: rekognition/createCollection.handler
+  deleteCollection:
+    handler: rekognition/deleteCollection.handler
   signUp:
     handler: rekognition/signUp.handler
     events:
