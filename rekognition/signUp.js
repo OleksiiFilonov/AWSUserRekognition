@@ -32,8 +32,7 @@ module.exports.handler = (event, context, callback) => {
   };
  s3.putObject(bucketParams, function(err, data) {
    if (err) {
-     console.log(err, err.stack); // an error occurred
-     console.log(body.userName);
+     // an error occurred
      console.error(err);
      callback(new Error('Cant upload to S3 backet', err));
    } else {

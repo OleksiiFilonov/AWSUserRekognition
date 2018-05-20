@@ -32,13 +32,25 @@ module.exports.handler = (event, context, callback) => {
   };
   rekognition.searchFacesByImage(rekognitionParams, function(err, data) {
     if (err) {
-      console.log(err, err.stack); // an error occurred
-      callback(new Error('Error during photo searching ', err));
+      console.log(err); // an error occurred
+      const response = {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin' : '*', // Required for CORS support to work
+          'Access-Control-Allow-Credentials' : true, // Required for cookies, authorization headers with HTTPS
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          confidence: 0,
+          errorType: "Bad Request",
+          error: err
+        }),
+      };
+      callback(null, response);
     } else {
-      console.log('Search Face Data', data);           // successful response
-      //data.FaceMatches[0].ExternalImageId
-      console.log('found external face: ' + JSON.stringify(data.FaceMatches[0]));
-      detectFace(data.FaceMatches[0].Face.ExternalImageId, buf, callback);
+      // successful response
+      //console.log('found external face: ' + JSON.stringify(data.FaceMatches[0]));
+      detectFace(data.FaceMatches[0].Face, buf, callback);
     }
   });
 

@@ -3,7 +3,7 @@
 const AWS = require('aws-sdk');
 var rekognition = new AWS.Rekognition();
 
-module.exports = function (externalImageId, imageBuffer, callback) {
+module.exports = function (detectedFace, imageBuffer, callback) {
   const rekognitionParams = {
     Image: {
       Bytes: imageBuffer
@@ -15,7 +15,7 @@ module.exports = function (externalImageId, imageBuffer, callback) {
       console.log(err, err.stack); // an error occurred
       callback(new Error('Error during face analysis ', err));
     } else {
-      console.log(data);           // successful response
+      // successful response
       const response = {
         statusCode: 200,
         headers: {
@@ -25,7 +25,8 @@ module.exports = function (externalImageId, imageBuffer, callback) {
         },
         body: JSON.stringify({
           message: 'Face Analysis/Detection information',
-          detectedFace: externalImageId,
+          externalImage: detectedFace.ExternalImageId,
+          confidence: detectedFace.Confidence,
           faceInfo: data
         }),
       };
